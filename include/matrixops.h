@@ -1,6 +1,8 @@
 #ifndef matrixops_h
 #define matrixops_h
 
+#include <stdlib.h>
+
 void triplet_to_compcol (
     int nrow, int ncol, int nz,
     double *At, // in: Elements of A (triplet)

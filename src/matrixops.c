@@ -1,8 +1,8 @@
 #include "matrixops.h"
 
-void triplet_to_colpack (int nrow, int ncol, int nz, double *At, int *Ati, int
+void triplet_to_compcol (int nrow, int ncol, int nz, double *At, int *Ati, int
     *Atj, double *A, int *Ap, int *Ai) {
-  int *order_ind, i, j, k;
+  int *order_ind,  k, p, best_k;
 
   order_ind = (int *) malloc(sizeof(int)*nz);
   for (k = 0; k < nz; k++)
@@ -22,5 +22,3 @@ void triplet_to_colpack (int nrow, int ncol, int nz, double *At, int *Ati, int
 void matrix_vector_mult (int nrow, int ncol, int nz, double *A, int *Ap,
     int *Ai, double *x, double *y) {
 }
-
-#endif
