@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 void triplet_to_compcol (
-    int nrow, int ncol, int nz,
+    int ncol, int nz,
     double *At, // in: Elements of A (triplet)
     int *Ati, // in: Row indexes of A
     int *Atj, // in: Column indexes of A

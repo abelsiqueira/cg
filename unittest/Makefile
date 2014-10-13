@@ -7,3 +7,8 @@ all: $(TESTS)
 
 %.tst: %.c
 	$(CC) -o $@ $< $(CFLAGS) -I../include ../lib/*.o -lcheck
+
+clean:
+	rm -f $(TESTS)
+
+purge: clean
