@@ -2,6 +2,7 @@
 #define matrixops_h
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 void triplet_to_compcol (
     int ncol, int nz,
@@ -14,7 +15,8 @@ void triplet_to_compcol (
     );
 
 void matrix_vector_mult (
-    int m, int n, int nz,
+    int m, int n,
+    bool trans,
     double *A, // in: Elements of A (compcol)
     int *Ap, // in: Column pointer of A
     int *Ai, // in: Row indexes of A

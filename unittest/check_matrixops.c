@@ -2,7 +2,7 @@
 #include "matrixops.h"
 #include <stdio.h>
 
-START_TEST(test_matrix_ops) {
+START_TEST(test_triplet_to_compcol) {
   int i;
   int ncol = 3, nz = 5;
   double At[5] = {1.2, -2, 3.1, 4.9, 99};
@@ -19,6 +19,25 @@ START_TEST(test_matrix_ops) {
     ck_assert_int_eq(Ap[i], expected_Ap[i]);
 } END_TEST
 
+START_TEST(test_matrix_vector_mult) {
+  int i;
+  double A[12] = {2, 6, 4, 1, 1, 2, 10, 7, 9, 2, 4, 5};
+  int   Ai[12] = {3, 2, 0, 1, 0, 2,  3, 0, 1, 0, 1, 3};
+  int    Ap[7] = {0, 1, 2, 4, 7, 9, 12};
+  double x[6] = {1.0, 1.5, -0.2, 1.4, 0.8, 1.3};
+  double Ax[4] = {8.8, 12.2, 11.8, 22.5};
+  double AtAx[6] = {45.0, 70.8, 47.4, 257.4, 171.4, 178.9};
+  double y[4], z[6];
+
+  int nrow = 4, ncol = 6;
+  matrix_vector_mult(nrow, ncol, false, A, Ap, Ai, x, y);
+  matrix_vector_mult(nrow, ncol, true, A, Ap, Ai, y, z);
+  for (i = 0; i < nrow; i++)
+    ck_assert_int_eq(y[i], Ax[i]);
+  for (i = 0; i < ncol; i++)
+    ck_assert_int_eq(z[i], AtAx[i]);
+} END_TEST
+
 Suite * matrix_ops_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -26,7 +45,8 @@ Suite * matrix_ops_suite(void) {
   s = suite_create("Matrix Ops");
   tc_core = tcase_create("Core");
 
-  tcase_add_test(tc_core, test_matrix_ops);
+  tcase_add_test(tc_core, test_triplet_to_compcol);
+  tcase_add_test(tc_core, test_matrix_vector_mult);
   suite_add_tcase(s, tc_core);
 
   return s;

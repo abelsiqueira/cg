@@ -2,6 +2,10 @@
 #include <stdio.h>
 
 #define UNUSED(x) (void)(x);
+#define PRINT_ARRAY(V, size, type) \
+    for (k = 0; k < size; k++) \
+      printf(#type" ", V[k]); \
+    printf("\n");
 
 void triplet_to_compcol (int ncol, int nz, double *At, int *Ati, int
     *Atj, double *A, int *Ap, int *Ai) {
@@ -44,6 +48,28 @@ void triplet_to_compcol (int ncol, int nz, double *At, int *Ati, int
   }
 }
 
-void matrix_vector_mult (int nrow, int ncol, int nz, double *A, int *Ap,
-    int *Ai, double *x, double *y) {
+void matrix_vector_mult (int nrow, int ncol, bool trans, double *A, int
+    *Ap, int *Ai, double *x, double *y) {
+  int j, k;
+  if (trans) {
+    k = 0;
+    for (j = 0; j < ncol; j++) {
+      y[j] = 0.0;
+      while (k < Ap[j+1]) {
+        y[j] += A[k]*x[Ai[k]];
+        k++;
+      }
+    }
+    PRINT_ARRAY(y, ncol, %lf);
+  } else {
+    for (k = 0; k < nrow; k++)
+      y[k] = 0.0;
+    k = 0;
+    for (j = 0; j < ncol; j++) {
+      while (k < Ap[j+1]) {
+        y[Ai[k]] += A[k]*x[j];
+        k++;
+      }
+    }
+  }
 }
